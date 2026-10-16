@@ -26,3 +26,13 @@ jobs:
         run: npm run release:win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Windows update package
+        uses: actions/upload-artifact@v4
+        with:
+          name: RezoneVPN-windows-x64
+          path: |
+            dist/*.exe
+            dist/*.blockmap
+            dist/latest.yml
+          if-no-files-found: error
