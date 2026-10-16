@@ -1,0 +1,58 @@
+{
+  "name": "rezonevpn-dashboard-demo",
+  "version": "0.6.2",
+  "private": true,
+  "description": "RezoneVPN demo with Russian IP details, dashboard layout, and local demo settings",
+  "main": "main.cjs",
+  "author": "RezoneVPN",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "npm run restore:icon && electron-builder --win nsis --x64",
+    "release:win": "npm run restore:icon && electron-builder --win nsis --x64 --publish always",
+    "restore:icon": "node scripts/restore-icon.cjs"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "26.17.0"
+  },
+  "build": {
+    "appId": "com.rezonevpn.dashboard.demo",
+    "productName": "RezoneVPN",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "index.html",
+      "styles.css",
+      "renderer.js"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/rezonevpn.ico",
+      "artifactName": "RezoneVPN-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "Rexaonygrief",
+      "repo": "123123123sdfs"
+    }
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151314">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://api.ipapi.is; object-src 'none'; base-uri 'none';">
+  <title>RezoneVPN</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="window-shell">
+    <div class="titlebar" aria-label="Панель окна">
+      <div class="window-actions mac-controls" aria-label="Управление окном">
+        <button class="mac-control close" id="closeWindow" aria-label="Закрыть окно" title="Закрыть"><svg viewBox="0 0 12 12"><path d="m3 3 6 6m0-6L3 9"/></svg></button>
+        <button class="mac-control minimize" id="minimizeWindow" aria-label="Свернуть окно" title="Свернуть"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+        <button class="mac-control maximize" id="maximizeWindow" aria-label="Развернуть окно" title="Развернуть"><svg class="maximize-icon" viewBox="0 0 12 12"><path d="M2.5 2.5h7v7h-7z"/></svg><svg class="restore-icon" viewBox="0 0 12 12"><path d="M4 2.5h5.5V8M2.5 4h5.5v5.5H2.5z"/></svg></button>
+      </div>
+      <div class="window-brand"><span class="tiny-mark"><i></i></span><span>RezoneVPN</span><span class="titlebar-divider">·</span><span class="window-caption">Демо-панель</span></div>
+      <div class="drag-region" aria-hidden="true"></div>
+    </div>
+
+    <section class="auth-screen" id="authScreen" aria-label="Регистрация и вход">
+      <div class="auth-showcase">
+        <div class="auth-brand"><span class="tiny-mark"><i></i></span> Rezone<span>VPN</span></div>
+        <div class="auth-copy"><p class="eyebrow">ПРОСТРАНСТВО ДЕМО</p><h1>Ваша сеть.<br><span>Ваш стиль.</span></h1><p>Панель управления с приватным профилем и темами оформления.</p></div>
+        <div class="auth-mini-window" aria-hidden="true"><div class="mini-window-top"><i></i><i></i><i></i><span>Обзор соединения</span></div><div class="mini-window-body"><div class="mini-graph"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div><div class="mini-metrics"><i></i><i></i><i></i></div><div class="mini-row"><i></i><i></i></div></div></div>
+        <p class="auth-disclaimer">Демо-интерфейс · подключение VPN не выполняется</p>
+      </div>
+      <div class="auth-panel-wrap"><form class="auth-panel" id="authForm" novalidate>
+        <div class="auth-heading"><p class="eyebrow">РАДЫ ВАС ВИДЕТЬ</p><h2 id="authHeading">Войти в аккаунт</h2><p id="authSubheading">Продолжите работу в своём пространстве.</p></div>
+        <div class="auth-tabs" role="tablist" aria-label="Тип действия"><button type="button" class="auth-tab active" data-auth-mode="login" role="tab" aria-selected="true">Вход</button><button type="button" class="auth-tab" data-auth-mode="register" role="tab" aria-selected="false">Регистрация</button></div>
+        <label class="form-field register-only hidden" for="authName">Имя</label><input class="form-input register-only hidden" id="authName" name="name" autocomplete="name" placeholder="Как к вам обращаться">
+        <label class="form-field" for="authEmail">Электронная почта</label><input class="form-input" id="authEmail" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+        <label class="form-field" for="authPassword">Пароль</label><input class="form-input" id="authPassword" name="password" type="password" autocomplete="current-password" placeholder="Минимум 8 символов" required>
+        <label class="form-field register-only hidden" for="authPasswordConfirm">Повторите пароль</label><input class="form-input register-only hidden" id="authPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" placeholder="Введите пароль ещё раз">
+        <label class="remember-me" for="rememberMe"><input id="rememberMe" type="checkbox"><span class="remember-check" aria-hidden="true"></span><span>Запомнить меня</span></label>
+        <p class="auth-error" id="authError" aria-live="polite"></p>
+        <button class="primary-button auth-submit" id="authSubmit" type="submit">Войти <span aria-hidden="true">↗</span></button>
+      </form></div>
+    </section>
+
+    <div class="app-layout hidden" id="appLayout">
+      <aside class="rail" aria-label="Разделы приложения">
+        <div class="rail-top">
+          <button class="rail-item" data-page="profile" aria-label="Профиль" title="Профиль"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 7h8M8 11h8M8 15h4"/><path d="M7 3.5v17"/></svg></button>
+          <button class="rail-item active" data-page="overview" aria-label="Панель" title="Панель"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></button>
+          <button class="rail-item" data-page="locations" aria-label="Локации" title="Локации"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21c-2.4-2.4-3.6-5.4-3.6-9S9.6 5.4 12 3z"/></svg></button>
+          <button class="rail-item" data-page="store" aria-label="Магазин" title="Магазин"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1 12H5L4 8z"/><path d="M9 9V6a3 3 0 0 1 6 0v3M8 13h.01M16 13h.01"/></svg></button>
+          <button class="rail-item" data-page="settings" aria-label="Настройки" title="Настройки"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M4 12h16M10 12v2h4v-2"/></svg></button>
+          <button class="rail-item hidden" id="adminNavItem" data-page="admin" aria-label="Админ-панель" title="Админ-панель"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></button>
+        </div>
+        <div class="rail-bottom"><button class="rail-item help" id="helpButton" aria-label="О программе" title="О программе"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.3 1.1-1.8 1.5-1.8 3M12 17.4v.1"/></svg></button></div>
+      </aside>
+
+      <main class="main-area">
+        <header class="page-header">
+          <div class="page-title-wrap"><h1 id="pageTitle">Панель</h1><span class="demo-pill" id="demoPill"><i></i> ДЕМО · НЕ ПОДКЛЮЧЕНО</span></div>
+          <div class="header-actions">
+            <button class="round-action service-status" id="serviceStatus" aria-label="Статус демо-службы" title="VPN-ядро не подключено"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9"/></svg></button>
+            <button class="layout-mode-button" id="layoutModeButton" type="button" aria-label="Настроить расположение карточек" aria-pressed="false" title="Переместить карточки панели"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h.01M16 5h.01M8 12h.01M16 12h.01M8 19h.01M16 19h.01"/><path d="M4 5h.01M4 12h.01M4 19h.01"/></svg><span>Настроить</span></button>
+            <button class="round-action edit-profile" id="editProfile" aria-label="Настройки профиля" title="Профиль демо"><svg viewBox="0 0 24 24"><path d="m4 16.7-.8 4.1 4.1-.8L19 8.3 15.7 5z"/><path d="m13.9 6.8 3.3 3.3"/></svg></button>
+          </div>
+        </header>
+
+        <section class="member-gate hidden" id="memberGate" aria-label="Статус подписки">
+          <div class="member-gate-icon">⌑</div><div class="member-gate-copy"><p class="eyebrow">АККАУНТ MEMBER</p><h2>VPN-подписка пока не активна</h2><p>Участникам без подписки доступны профиль и настройки оформления. Роль <b>custom</b> и VPN-доступ выдаёт владелец приложения.</p></div><div class="member-gate-badge"><i></i> БЕЗ ПОДПИСКИ</div>
+        </section>
+        <section class="dashboard-grid" id="dashboardGrid" aria-label="Состояние соединения">
+          <article class="panel speed-card" data-dashboard-card="speed">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0v1H4z"/><path d="m12 14 4-4M7 19h.01M17 19h.01"/></svg><h2>Скорость сети</h2></div><div class="rate-label"><span>↑ <b>0</b> B/s</span><span>↓ <b>0</b> B/s</span></div></div>
+            <div class="chart-wrap" aria-label="График скорости: данных пока нет"><svg class="speed-chart" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f0dfe2" stop-opacity=".2"/><stop offset="1" stop-color="#f0dfe2" stop-opacity="0"/></linearGradient></defs><path d="M0 93 H600 V140 H0 Z" fill="url(#chartFill)"/><path d="M0 92.5 H600" fill="none" stroke="#f4e6e8" stroke-width="2"/></svg><span class="chart-empty">График появится после подключения сервиса</span></div>
+          </article>
+
+          <article class="panel switch-card" data-demo-card data-dashboard-card="proxy">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><path d="m4 7 6 5 5-5M20 7l-6 5-5 7M4 17h4"/><path d="M16 5h4v4"/></svg><h2>Системный прокси</h2></div><span class="demo-mini">DEMO</span></div>
+            <div class="switch-row"><span class="switch-label">Включено <small>· демо</small></span><button class="switch on" data-toggle="proxy" aria-pressed="true" aria-label="Переключить системный прокси"><i></i></button></div>
+          </article>
+
+          <article class="panel switch-card tun-card" data-demo-card data-dashboard-card="tun">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><path d="M12 21s7-3.8 7-10V5l-7-2-7 2v6c0 6.2 7 10 7 10z"/><path d="m9 12 2 2 4-5"/></svg><h2>TUN</h2></div><span class="demo-mini">DEMO</span></div>
+            <div class="switch-row"><span class="switch-label">Включено <small>· демо</small></span><button class="switch on" data-toggle="tun" aria-pressed="true" aria-label="Переключить режим TUN"><i></i></button></div>
+          </article>
+
+          <div class="bottom-left-grid">
+          <article class="panel traffic-card" data-dashboard-card="traffic">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><path d="M12 3v9l6.5 6.3A9 9 0 1 1 12 3z"/><path d="M16 4.5A8 8 0 0 1 20 9h-4z"/></svg><h2>Статистика трафика</h2></div></div>
+            <div class="traffic-content"><div class="donut" aria-hidden="true"><div></div></div><div class="traffic-right"><div class="legend"><span><i class="upload"></i>Отдача</span><span><i class="download"></i>Загрузка</span></div><div class="traffic-numbers"><div><span class="traffic-arrow">↑</span><strong>0</strong><span>B</span></div><div><span class="traffic-arrow down">↓</span><strong>0</strong><span>B</span></div></div></div></div>
+          </article>
+
+          <article class="panel internal-card" data-dashboard-card="internal-ip">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M8 4h11a2 2 0 0 1 2 2v11M7 11h7M7 15h5"/></svg><h2>Внутренний IP</h2></div><span class="demo-mini">ПРИМЕР</span></div>
+            <div class="internal-ip">192.0.2.18</div>
+            <div class="subtle-line">Тестовый адрес · не назначен</div>
+          </article>
+
+          </div>
+
+          <article class="panel route-card" data-dashboard-card="route">
+            <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24"><path d="M7 4v6l5 3v7M17 4v6l-5 3"/><path d="M4 4h6v3H4zM14 4h6v3h-6zM9 17h6v3H9z"/></svg><h2>Маршрут</h2></div><button class="tiny-info" id="routeInfo" aria-label="О режиме"><span>i</span></button></div>
+            <div class="route-options" role="group" aria-label="Режим маршрутизации">
+              <button class="route-option" data-route="rule"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h.01M11 9h5M8 12h.01M11 12h5M8 15h.01M11 15h5"/></svg><span>Правило</span></button>
+              <button class="route-option selected" data-route="global"><svg viewBox="0 0 24 24"><path d="M4 7h5l3 5 3-5h5M12 12v7"/><path d="M3 4h5v5H3zM16 4h5v5h-5zM9.5 17.5h5v4h-5z"/></svg><span>Глобальный</span></button>
+              <button class="route-option" data-route="direct"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v2M20 12h-2"/></svg><span>Прямой</span></button>
+            </div>
+          </article>
+
+          <article class="panel network-card" data-dashboard-card="network" id="networkCard" tabindex="0" aria-label="Проверка публичного IP и страны. Открыть подробности">
+            <div class="panel-head"><div class="panel-title"><svg class="network-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21c-2.4-2.4-3.6-5.4-3.6-9S9.6 5.4 12 3z"/></svg><h2>Проверка сети</h2><button class="tiny-info" id="networkInfo" aria-label="Подробности о сетевом адресе"><span>i</span></button></div><button class="network-refresh" id="networkRefresh" type="button" aria-label="Проверить реальный IP и страну" title="Проверить сеть"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.8-4L4 9"/><path d="M4 4v5h5M4 13a8 8 0 0 0 14.8 4L20 15"/><path d="M20 20v-5h-5"/></svg></button></div>
+            <div class="public-ip" id="publicIpText">Не проверено</div>
+            <div class="subtle-line network-location"><span class="country-flag" id="publicCountryFlag" aria-hidden="true"></span><span id="publicIpMeta">Нажмите ↻, чтобы узнать IP и страну</span></div>
+          </article>
+        </section>
+
+        <section class="content-page profile-page hidden" id="profilePage" aria-label="Профиль пользователя">
+          <div class="content-intro"><p class="eyebrow">ВАШЕ ПРОСТРАНСТВО</p><h2>Личный профиль</h2><p>Управляйте отображаемым именем и фотографией. Роль назначает владелец.</p></div>
+          <form class="profile-layout" id="profileForm">
+            <article class="panel profile-card"><div class="profile-card-top"><div class="avatar-large" id="profileAvatar" aria-label="Фото профиля"><span>RR</span></div><div class="profile-id"><h3 id="profileDisplayName">Rezakta Rexa</h3><p id="profileDisplayRole">Пользователь</p><span class="online-status"><i></i> Демо-профиль</span></div></div><div class="profile-card-foot"><label class="upload-button" for="avatarFile">Загрузить фото</label><input id="avatarFile" type="file" accept="image/*" class="visually-hidden"><span>JPG, PNG · до 5 МБ</span></div></article>
+            <article class="panel profile-form-card"><div class="panel-head"><div class="panel-title"><h2>Основная информация</h2></div><span class="demo-mini">ЛОКАЛЬНО</span></div><div class="profile-fields"><label class="form-field" for="profileName">Имя</label><input class="form-input" id="profileName" maxlength="48" required><label class="form-field" for="profileEmail">Почта</label><input class="form-input" id="profileEmail" type="email" readonly><label class="form-field" for="profileRoleDisplay">Роль</label><div class="role-readonly" id="profileRoleDisplay" aria-live="polite">Member · участник без подписки</div><label class="form-field" for="profileAbout">О себе</label><textarea class="form-input profile-about" id="profileAbout" maxlength="180" placeholder="Добавьте короткое описание"></textarea><div class="profile-actions"><button class="primary-button" type="submit">Сохранить изменения <span aria-hidden="true">↗</span></button><button class="text-button" id="signOutButton" type="button">Выйти из аккаунта</button></div></div></article>
+          </form>
+        </section>
+
+        <section class="content-page admin-page hidden" id="adminPage" aria-label="Админ-панель">
+          <div class="content-intro"><p class="eyebrow">ТОЛЬКО ДЛЯ DEV</p><h2>Админ-панель</h2><p>Управление локальными демо-аккаунтами и уровнями доступа.</p></div>
+          <div class="admin-stats"><article class="panel admin-stat"><span>Всего аккаунтов</span><strong id="adminTotal">0</strong></article><article class="panel admin-stat"><span>Member · без подписки</span><strong id="adminMemberCount">0</strong></article><article class="panel admin-stat"><span>Custom · подписка</span><strong id="adminCustomCount">0</strong></article><article class="panel admin-stat"><span>Dev · владелец</span><strong id="adminDevCount">0</strong></article></div>
+          <article class="panel admin-users-card"><div class="admin-users-head"><div><h3>Пользователи</h3><p>Выдавайте или снимайте custom-доступ. Роль DEV закреплена за владельцем.</p></div><span class="demo-mini">ЛОКАЛЬНЫЙ СПИСОК</span></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Аккаунт</th><th>Роль</th><th>Подписка / VPN</th><th>Управление</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div><p class="admin-security-note">Это демонстрационная админ-панель: список хранится только в localStorage этого приложения, серверных аккаунтов здесь нет.</p></article>
+        </section>
+
+        <section class="content-page settings-page hidden" id="settingsPage" aria-label="Настройки приложения">
+          <div class="content-intro"><p class="eyebrow">ПЕРСОНАЛИЗАЦИЯ</p><h2>Настройки</h2><p>Основные параметры интерфейса, панели и сетевой проверки.</p></div>
+          <div class="settings-list">
+            <section class="settings-group" aria-labelledby="settingsInterfaceTitle">
+              <h3 id="settingsInterfaceTitle">Интерфейс</h3>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Язык</strong><span>Язык интерфейса и названия стран</span></div><span class="settings-value">Русский</span></div>
+              <div class="settings-row settings-row-stack"><div class="settings-row-copy"><strong>Тема</strong><span>Цветовая схема приложения</span></div><button class="settings-link" id="themeOptionsToggle" type="button" aria-expanded="false" aria-controls="themeGrid">Выбрать тему <span aria-hidden="true">⌄</span></button></div>
+              <div class="theme-grid hidden" id="themeGrid"></div>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Переходы между вкладками</strong><span>Плавная смена разделов и элементов</span></div><button class="privacy-switch on" id="transitionsToggle" type="button" role="switch" aria-checked="true" aria-label="Плавные переходы между вкладками"><i></i></button></div>
+            </section>
+            <section class="settings-group" aria-labelledby="settingsPanelTitle">
+              <h3 id="settingsPanelTitle">Панель</h3>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Расположение карточек</strong><span>Зажмите карточку и перетащите; порядок сохранится локально</span></div><button class="settings-link" id="openLayoutSettings" type="button">Настроить <span aria-hidden="true">↗</span></button></div>
+            </section>
+            <section class="settings-group" aria-labelledby="settingsNetworkTitle">
+              <h3 id="settingsNetworkTitle">Сеть</h3>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Скрывать IP-адрес</strong><span>Маскировать IP в панели и подробностях проверки</span></div><button class="privacy-switch hide-ip-toggle" id="hideIpSettingsToggle" type="button" role="switch" aria-checked="false" aria-label="Скрывать IP-адрес"><i></i></button></div>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Проверка сети</strong><span>Определение публичного IP, страны и флага</span></div><button class="settings-link" id="openNetworkSettings" type="button">Проверить <span aria-hidden="true">↗</span></button></div>
+            </section>
+            <section class="settings-group" aria-labelledby="settingsUpdatesTitle">
+              <h3 id="settingsUpdatesTitle">Обновления</h3>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Автообновление</strong><span id="updateSourceStatus">GitHub Releases · ожидает публикации первой версии</span></div><span class="settings-value">NSIS · автоматически</span></div>
+              <div class="settings-row settings-row-stack"><div class="settings-row-copy"><strong>Журнал обновлений</strong><span>Текущая версия <span id="appVersionLabel">0.6.2</span></span></div><button class="settings-link" id="updateLogToggle" type="button" aria-expanded="false" aria-controls="updateLog">Посмотреть <span aria-hidden="true">⌄</span></button></div>
+              <div class="update-log hidden" id="updateLog"><article><strong>0.6.2 · Подготовка автообновлений</strong><ul><li>Добавлена проверка GitHub Releases, загрузка обновления в фоне и установка при перезапуске.</li><li>Portable-сборка заменена установщиком NSIS, который поддерживает штатное автообновление.</li><li>В настройках отображается статус проверки и загрузки.</li></ul></article><article><strong>0.6.1 · Улучшения панели и локаций</strong><ul><li>Карточки панели можно переставлять прямым перетаскиванием с плавным переходом.</li><li>Добавлены отдельные поля региона и города, а также улучшено распознавание кода страны и флага.</li><li>Для сервисов добавлены иконки; в комбинированный режим добавлен AyuGram.</li><li>В режиме «Полный VPN» список сервисов скрывается.</li></ul></article><article><strong>0.6.0 · Обновление интерфейса</strong><ul><li>Добавлены «Запомнить меня» и настройки сервисов для локаций.</li><li>Добавлены режимы «Комбинированный» и «Полный VPN» в демо-панели.</li><li>Раздел «Правила» заменён локальным каталогом-магазином.</li><li>Добавлены флаги стран, анимация карточки входа и плавная перестановка панели.</li></ul></article><p class="update-log-note">Автообновление начнёт работать после публикации установщика и latest.yml в настроенном GitHub-репозитории.</p></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="content-page locations-page hidden" id="locationsPage" aria-label="Настройки локаций">
+          <div class="content-intro"><p class="eyebrow">ВЫБОР УЗЛА</p><h2>Локации</h2><p>Настройте демо-маршрутизацию для каждой локации. VPN-серверы не подключены.</p></div>
+          <div class="locations-toolbar panel"><div><strong>Демо-локация</strong><span id="selectedLocationLabel">Не выбрана</span></div><span class="demo-mini">БЕЗ ПОДКЛЮЧЕНИЯ</span></div>
+          <div class="location-grid" id="locationGrid"></div>
+          <section class="vpn-location-settings panel hidden" id="vpnLocationSettings" aria-label="Настройки выбранной локации">
+            <div class="vpn-settings-heading"><div><p class="eyebrow">НАСТРОЙКА ЛОКАЦИИ</p><h3 id="vpnLocationTitle">VPN</h3></div><span class="demo-mini">ДЕМО · НЕ ПЕРЕНАПРАВЛЯЕТ ТРАФИК</span></div>
+            <div class="vpn-mode-grid" role="radiogroup" aria-label="Режим VPN">
+              <button class="vpn-mode-option selected" id="combinedVpnMode" type="button" data-vpn-mode="combined" role="radio" aria-checked="true"><strong>Комбинированный</strong><span>Только выбранные сервисы работают через VPN</span></button>
+              <button class="vpn-mode-option" id="fullVpnMode" type="button" data-vpn-mode="full" role="radio" aria-checked="false"><strong>Полный VPN</strong><span>Все сервисы направляются через VPN</span></button>
+            </div>
+            <div id="combinedServiceList"><div class="service-list-heading"><div><h3>Сервисы через VPN</h3><p id="serviceSelectionHint">Выберите сервисы для комбинированного режима</p></div><span class="service-selection-count" id="serviceSelectionCount">0 выбрано</span></div><div class="service-grid" id="serviceGrid"></div></div>
+            <div class="full-vpn-note hidden" id="fullVpnNote"><span aria-hidden="true">◈</span><div><strong>Полный VPN включён</strong><p>Список приложений скрыт: этот режим охватывает весь трафик.</p></div></div>
+            <p class="demo-callout">Выбор сохраняется отдельно для каждой демо-локации. Для реального разделения трафика необходимы настроенный VPN-клиент и системная интеграция.</p>
+          </section>
+        </section>
+
+        <section class="content-page store-page hidden" id="storePage" aria-label="Магазин продукции">
+          <div class="content-intro"><p class="eyebrow">КАТАЛОГ</p><h2>Магазин</h2><p>Демо-витрина подготовлена для будущего каталога на сайте; товары пока хранятся только на этом устройстве.</p></div>
+          <form class="panel store-editor" id="storeForm">
+            <div class="store-editor-heading"><div><h3>Добавить товар</h3><p>Название и описание обязательны. Цена и ссылка задаются вами.</p></div><span class="demo-mini">ЛОКАЛЬНЫЙ КАТАЛОГ</span></div>
+            <div class="store-form-grid"><label>Название<input class="form-input" id="productName" maxlength="80" required placeholder="Название товара"></label><label>Стоимость<input class="form-input" id="productPrice" maxlength="60" placeholder="Укажите цену и валюту вручную"></label><label class="store-description-field">Описание<textarea class="form-input" id="productDescription" maxlength="500" required placeholder="Кратко опишите товар"></textarea></label><label class="store-link-field">Ссылка на сайт (необязательно)<input class="form-input" id="productUrl" type="url" placeholder="https://example.com"></label></div>
+            <button class="primary-button" type="submit">Добавить в каталог <span aria-hidden="true">↗</span></button>
+          </form>
+          <div class="store-results-heading"><h3>Товары</h3><span id="productCount">0 товаров</span></div>
+          <div class="product-grid" id="productGrid"></div>
+        </section>
+
+      </main>
+    </div>
+    <div class="network-drawer-overlay hidden" id="networkDrawerOverlay" aria-hidden="true">
+      <aside class="network-drawer" id="networkDrawer" role="dialog" aria-modal="true" aria-labelledby="networkDrawerTitle">
+        <header class="drawer-header"><button class="drawer-close" id="networkDrawerClose" aria-label="Закрыть подробности">×</button><div><p class="eyebrow">СЕТЕВАЯ ИНФОРМАЦИЯ</p><h2 id="networkDrawerTitle">Исходящий IP</h2></div><button class="drawer-refresh" id="networkDrawerRefresh" aria-label="Обновить IP и страну" title="Обновить"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.8-4L4 9"/><path d="M4 4v5h5M4 13a8 8 0 0 0 14.8 4L20 15"/><path d="M20 20v-5h-5"/></svg></button></header>
+        <p class="drawer-provider-note">Публичный IP и примерная геолокация запрашиваются у стороннего сервиса ipapi.is только при открытии этой панели или нажатии «Обновить». Без ключа действует лимит бесплатных запросов; IP передаётся сервису.</p>
+        <p class="network-query-status" id="networkQueryStatus" role="status" aria-live="polite">Нажмите «Обновить», чтобы определить публичный IP и страну.</p>
+        <section class="drawer-group"><h3>Основная информация</h3><div class="drawer-data-card"><div class="drawer-row"><span>IP-адрес</span><strong id="detailIp">—</strong></div><div class="drawer-row"><span>Страна</span><strong class="country-value"><span class="country-flag" id="detailCountryFlag" aria-hidden="true"></span><span id="detailCountry">—</span></strong></div><div class="drawer-row"><span>Регион</span><strong id="detailRegion">—</strong></div><div class="drawer-row"><span>Город</span><strong id="detailCity">—</strong></div><div class="drawer-row"><span>Тип сети</span><strong id="detailType">Недоступно</strong></div></div></section>
+        <section class="drawer-group"><h3>Сеть</h3><div class="drawer-data-card"><div class="drawer-row"><span>Организация</span><strong id="detailCompany">—</strong></div><div class="drawer-row"><span>ASN</span><strong id="detailAsn">—</strong></div><div class="drawer-row"><span>Источник</span><strong>ipapi.is</strong></div></div></section>
+        <section class="drawer-group drawer-other"><h3>Другое</h3><div class="drawer-data-card"><div class="drawer-row hide-ip-row"><span>Скрыть IP</span><button class="privacy-switch hide-ip-toggle" id="hideIpToggle" type="button" role="switch" aria-checked="false" aria-label="Скрыть отображение IP"><i></i></button></div></div></section>
+        <p class="drawer-location-note">Страна, город и регион определяются приблизительно по IP и могут отличаться от вашего фактического местоположения.</p>
+      </aside>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>
