@@ -1,0 +1,7 @@
+64-188-64-28.sslip.io {
+    handle_path /updates/* {
+        root * /srv/rezonevpn-updates
+        header latest.yml Cache-Control "no-cache"
+        file_server
+    }
+}

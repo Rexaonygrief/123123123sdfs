@@ -8,7 +8,7 @@ function showToast(message) {
 }
 
 const TITLES = { overview: 'Панель', profile: 'Профиль', locations: 'Локации', store: 'Магазин', settings: 'Настройки', admin: 'Админ-панель' };
-const APP_VERSION = '0.6.3';
+const APP_VERSION = '0.6.4';
 const ROUTES = { rule: 'Правило', global: 'Глобальный', direct: 'Прямой' };
 const THEMES = [
   { id: 'velvet', name: 'Velvet dusk', note: 'Тёплая тёмная', bg: '#171416', rail: '#211d20', panel: '#252023', raised: '#30292d', border: '#443940', text: '#f0e8ed', accent: '#f1c6d7', route: '#713e4d', green: '#b1d987', swatches: ['#171416','#252023','#f1c6d7'] },
@@ -964,6 +964,40 @@ if (window.windowControls) {
   window.windowControls.onUpdateStatus(status => {
     const updateStatus = document.getElementById('updateSourceStatus');
     if (updateStatus) updateStatus.textContent = status;
+  });
+  const updateButton = document.getElementById('updateActionButton');
+  const setUpdateAction = state => {
+    const actions = {
+      idle: ['check', 'Проверить обновления', false],
+      checking: ['check', 'Проверяем…', true],
+      available: ['download', 'Обновить', false],
+      downloading: ['download', 'Загрузка…', true],
+      downloaded: ['install', 'Перезапустить и установить', false],
+      error: ['check', 'Проверить ещё раз', false]
+    };
+    const [action, label, disabled] = actions[state] || actions.idle;
+    updateButton.dataset.updateAction = action;
+    updateButton.textContent = label;
+    updateButton.disabled = disabled;
+  };
+  window.windowControls.onUpdateState(setUpdateAction);
+  window.windowControls.getUpdateSnapshot().then(snapshot => {
+    if (!snapshot) return;
+    const updateStatus = document.getElementById('updateSourceStatus');
+    if (updateStatus && typeof snapshot.status === 'string') updateStatus.textContent = snapshot.status;
+    setUpdateAction(snapshot.state);
+  }).catch(() => {});
+  updateButton.addEventListener('click', async () => {
+    const action = updateButton.dataset.updateAction || 'check';
+    if (action === 'download') {
+      setUpdateAction('downloading');
+      await window.windowControls.downloadUpdate();
+    } else if (action === 'install') {
+      await window.windowControls.installUpdate();
+    } else {
+      setUpdateAction('checking');
+      await window.windowControls.checkForUpdates();
+    }
   });
   const maxButton = document.getElementById('maximizeWindow');
   const setMaximized = state => {

@@ -1,6 +1,6 @@
 {
   "name": "rezonevpn-dashboard-demo",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "private": true,
   "description": "RezoneVPN interface prototype with refreshed launcher UI and updater",
   "main": "main.cjs",
@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron .",
     "dist:win": "electron-builder --win nsis --x64",
-    "release:win": "electron-builder --win nsis --x64 --publish always"
+    "release:win": "electron-builder --win nsis --x64"
   },
   "devDependencies": {
     "electron": "44.7.2",
@@ -46,9 +46,8 @@
       "allowToChangeInstallationDirectory": false
     },
     "publish": {
-      "provider": "github",
-      "owner": "Rexaonygrief",
-      "repo": "123123123sdfs"
+      "provider": "generic",
+      "url": "https://64-188-64-28.sslip.io/updates/"
     }
   },
   "dependencies": {

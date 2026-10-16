@@ -1,47 +1,52 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('node:path');
 
 let win;
+let updateSnapshot = {
+  status: 'Нажмите «Проверить обновления».',
+  state: 'idle'
+};
 
 function sendUpdateStatus(message) {
+  updateSnapshot.status = message;
   if (win && !win.isDestroyed()) win.webContents.send('updates:status', message);
+}
+
+function sendUpdateState(state) {
+  updateSnapshot.state = state;
+  if (win && !win.isDestroyed()) win.webContents.send('updates:state', state);
 }
 
 function setupAutoUpdater() {
   if (!app.isPackaged) return;
 
-  autoUpdater.autoDownload = true;
-  autoUpdater.autoInstallOnAppQuit = true;
-  autoUpdater.on('checking-for-update', () => sendUpdateStatus('Проверяем новые версии…'));
-  autoUpdater.on('update-available', info => {
-    sendUpdateStatus(`Доступна версия ${info.version}; загружаем…`);
+  autoUpdater.autoDownload = false;
+  autoUpdater.autoInstallOnAppQuit = false;
+  autoUpdater.on('checking-for-update', () => {
+    sendUpdateStatus('Проверяем обновления на сервере…');
+    sendUpdateState('checking');
   });
-  autoUpdater.on('update-not-available', () => sendUpdateStatus('Установлена актуальная версия.'));
+  autoUpdater.on('update-available', info => {
+    sendUpdateStatus(`Доступна версия ${info.version}. Нажмите «Обновить».`);
+    sendUpdateState('available');
+  });
+  autoUpdater.on('update-not-available', () => {
+    sendUpdateStatus('Установлена актуальная версия.');
+    sendUpdateState('idle');
+  });
   autoUpdater.on('download-progress', progress => {
     sendUpdateStatus(`Загрузка обновления: ${Math.round(progress.percent)}%`);
+    sendUpdateState('downloading');
   });
-  autoUpdater.on('update-downloaded', async info => {
-    sendUpdateStatus(`Версия ${info.version} загружена; ожидает перезапуска.`);
-    try {
-      const parent = win && !win.isDestroyed() ? win : undefined;
-      const { response } = await dialog.showMessageBox(parent, {
-        type: 'info',
-        title: 'Обновление RezoneVPN',
-        message: `Версия ${info.version} готова к установке.`,
-        detail: 'Перезапустите приложение сейчас или закройте его позже — установка начнётся при выходе.',
-        buttons: ['Перезапустить сейчас', 'Позже'],
-        defaultId: 0,
-        cancelId: 1
-      });
-      if (response === 0) autoUpdater.quitAndInstall(false, true);
-    } catch (error) {
-      console.error('Не удалось показать диалог обновления:', error);
-    }
+  autoUpdater.on('update-downloaded', info => {
+    sendUpdateStatus(`Версия ${info.version} загружена. Нажмите для перезапуска и установки.`);
+    sendUpdateState('downloaded');
   });
   autoUpdater.on('error', error => {
     console.error('Ошибка автообновления:', error);
     sendUpdateStatus('Не удалось проверить обновление; попробуйте позже.');
+    sendUpdateState('error');
   });
 
   setTimeout(() => {
@@ -79,6 +84,42 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  ipcMain.handle('updates:get-snapshot', () => ({ ...updateSnapshot }));
+  ipcMain.handle('updates:check', async () => {
+    if (!app.isPackaged) {
+      sendUpdateStatus('Проверка обновлений доступна в установленной сборке.');
+      sendUpdateState('idle');
+      return false;
+    }
+    try {
+      sendUpdateState('checking');
+      await autoUpdater.checkForUpdates();
+      return true;
+    } catch (error) {
+      console.error('Проверка обновлений не удалась:', error);
+      sendUpdateStatus('Не удалось проверить обновление; попробуйте позже.');
+      sendUpdateState('error');
+      return false;
+    }
+  });
+  ipcMain.handle('updates:download', async () => {
+    if (!app.isPackaged || updateSnapshot.state !== 'available') return false;
+    try {
+      sendUpdateState('downloading');
+      await autoUpdater.downloadUpdate();
+      return true;
+    } catch (error) {
+      console.error('Загрузка обновления не удалась:', error);
+      sendUpdateStatus('Не удалось загрузить обновление; попробуйте позже.');
+      sendUpdateState('error');
+      return false;
+    }
+  });
+  ipcMain.handle('updates:install', () => {
+    if (!app.isPackaged || updateSnapshot.state !== 'downloaded') return false;
+    autoUpdater.quitAndInstall(false, true);
+    return true;
+  });
   ipcMain.on('window:minimize', () => win && win.minimize());
   ipcMain.on('window:toggle-maximize', () => {
     if (!win) return;
