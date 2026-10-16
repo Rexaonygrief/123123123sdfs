@@ -43,25 +43,52 @@
     <div class="app-layout hidden" id="appLayout">
       <aside class="rail" aria-label="Разделы приложения">
         <div class="rail-top">
-          <button class="rail-item" data-page="profile" aria-label="Профиль" title="Профиль"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 7h8M8 11h8M8 15h4"/><path d="M7 3.5v17"/></svg></button>
-          <button class="rail-item active" data-page="overview" aria-label="Панель" title="Панель"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></button>
-          <button class="rail-item" data-page="locations" aria-label="Локации" title="Локации"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21c-2.4-2.4-3.6-5.4-3.6-9S9.6 5.4 12 3z"/></svg></button>
-          <button class="rail-item" data-page="store" aria-label="Магазин" title="Магазин"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1 12H5L4 8z"/><path d="M9 9V6a3 3 0 0 1 6 0v3M8 13h.01M16 13h.01"/></svg></button>
-          <button class="rail-item" data-page="settings" aria-label="Настройки" title="Настройки"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M4 12h16M10 12v2h4v-2"/></svg></button>
-          <button class="rail-item hidden" id="adminNavItem" data-page="admin" aria-label="Админ-панель" title="Админ-панель"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></button>
+          <div class="rail-brand" aria-label="RezoneVPN">
+            <span class="rail-brand-mark"><span></span></span>
+            <span class="rail-brand-copy"><strong>Rezone<span>VPN</span></strong><small>PRIVATE NETWORK</small></span>
+          </div>
+          <p class="rail-section-caption">РАБОЧЕЕ ПРОСТРАНСТВО</p>
+          <button class="rail-item active" data-page="overview" aria-label="Панель" title="Панель"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span class="rail-label">Панель</span><span class="rail-shortcut">01</span></button>
+          <button class="rail-item" data-page="locations" aria-label="Локации" title="Локации"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21c-2.4-2.4-3.6-5.4-3.6-9S9.6 5.4 12 3z"/></svg><span class="rail-label">Локации</span><span class="rail-shortcut">02</span></button>
+          <button class="rail-item" data-page="store" aria-label="Магазин" title="Магазин"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1 12H5L4 8z"/><path d="M9 9V6a3 3 0 0 1 6 0v3M8 13h.01M16 13h.01"/></svg><span class="rail-label">Магазин</span></button>
+          <p class="rail-section-caption rail-section-secondary">АККАУНТ</p>
+          <button class="rail-item" data-page="profile" aria-label="Профиль" title="Профиль"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 7h8M8 11h8M8 15h4"/><path d="M7 3.5v17"/></svg><span class="rail-label">Профиль</span></button>
+          <button class="rail-item" data-page="settings" aria-label="Настройки" title="Настройки"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.7 2.9-.2-.1a1.8 1.8 0 0 0-1.8.5l-.1.2h-3.4l-.1-.2a1.8 1.8 0 0 0-1.8-.5l-.2.1-1.7-2.9.1-.1a1.7 1.7 0 0 0 .3-1.9l-.1-.2-1.7-1.7 1.7-2.9.2.1a1.8 1.8 0 0 0 1.8-.5l.1-.2h3.4l.1.2a1.8 1.8 0 0 0 1.8.5l.2-.1 1.7 2.9-1.7 1.7z" transform="translate(-1.5 -1.5) scale(1.13)"/></svg><span class="rail-label">Настройки</span></button>
+          <button class="rail-item hidden" id="adminNavItem" data-page="admin" aria-label="Админ-панель" title="Админ-панель"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m9 12 2 2 4-4"/></svg><span class="rail-label">Админ-панель</span></button>
         </div>
-        <div class="rail-bottom"><button class="rail-item help" id="helpButton" aria-label="О программе" title="О программе"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.3 1.1-1.8 1.5-1.8 3M12 17.4v.1"/></svg></button></div>
+        <div class="rail-bottom">
+          <div class="rail-connection-note"><span class="rail-connection-dot"></span><div><strong>VPN-ядро</strong><small>Не подключено</small></div></div>
+          <button class="rail-item help" id="helpButton" aria-label="О программе" title="О программе"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.3 1.1-1.8 1.5-1.8 3M12 17.4v.1"/></svg><span class="rail-label">О программе</span></button>
+          <div class="rail-version">REZONEVPN <span>·</span> 0.6.3</div>
+        </div>
       </aside>
 
       <main class="main-area">
         <header class="page-header">
-          <div class="page-title-wrap"><h1 id="pageTitle">Панель</h1><span class="demo-pill" id="demoPill"><i></i> ДЕМО · НЕ ПОДКЛЮЧЕНО</span></div>
+          <div class="page-heading-stack"><p class="page-breadcrumb">REZONEVPN <span>/</span> ЛИЧНОЕ ПРОСТРАНСТВО</p><div class="page-title-wrap"><h1 id="pageTitle">Панель</h1><span class="demo-pill" id="demoPill"><i></i> ДЕМО · НЕ ПОДКЛЮЧЕНО</span></div></div>
           <div class="header-actions">
-            <button class="round-action service-status" id="serviceStatus" aria-label="Статус демо-службы" title="VPN-ядро не подключено"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9"/></svg></button>
+            <button class="service-status" id="serviceStatus" aria-label="Статус демо-службы" title="VPN-ядро не подключено"><i aria-hidden="true"></i><span>Ядро не подключено</span></button>
             <button class="layout-mode-button" id="layoutModeButton" type="button" aria-label="Настроить расположение карточек" aria-pressed="false" title="Переместить карточки панели"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h.01M16 5h.01M8 12h.01M16 12h.01M8 19h.01M16 19h.01"/><path d="M4 5h.01M4 12h.01M4 19h.01"/></svg><span>Настроить</span></button>
             <button class="round-action edit-profile" id="editProfile" aria-label="Настройки профиля" title="Профиль демо"><svg viewBox="0 0 24 24"><path d="m4 16.7-.8 4.1 4.1-.8L19 8.3 15.7 5z"/><path d="m13.9 6.8 3.3 3.3"/></svg></button>
           </div>
         </header>
+        <section class="connection-hero hidden" id="connectionHero" aria-label="Состояние VPN-соединения">
+          <div class="connection-hero-copy">
+            <div class="hero-meta"><span class="hero-state-dot"></span><span>СОСТОЯНИЕ СОЕДИНЕНИЯ</span><span class="hero-state-label">НЕ ЗАЩИЩЕНО · ДЕМО</span></div>
+            <h2>Твоя сеть.<br><em>Твои правила.</em></h2>
+            <p>Интерфейс готов к настройке, но VPN-ядро ещё не подключено. Сейчас трафик не защищён и не перенаправляется.</p>
+            <div class="hero-actions">
+              <button class="hero-primary" id="heroLocations" type="button">Выбрать локацию <span aria-hidden="true">↗</span></button>
+              <button class="hero-secondary" id="heroNetworkCheck" type="button">Проверить сеть</button>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="hero-orbit orbit-three"></div>
+            <div class="hero-core"><span class="hero-core-mark">R</span><span>VPN CORE</span><small>OFFLINE</small></div>
+            <i class="hero-node node-one"></i><i class="hero-node node-two"></i><i class="hero-node node-three"></i>
+            <span class="hero-visual-caption">СЕТЕВОЙ КОНТРОЛЬ</span>
+          </div>
+        </section>
 
         <section class="member-gate hidden" id="memberGate" aria-label="Статус подписки">
           <div class="member-gate-icon">⌑</div><div class="member-gate-copy"><p class="eyebrow">АККАУНТ MEMBER</p><h2>VPN-подписка пока не активна</h2><p>Участникам без подписки доступны профиль и настройки оформления. Роль <b>custom</b> и VPN-доступ выдаёт владелец приложения.</p></div><div class="member-gate-badge"><i></i> БЕЗ ПОДПИСКИ</div>
@@ -147,9 +174,9 @@
             </section>
             <section class="settings-group" aria-labelledby="settingsUpdatesTitle">
               <h3 id="settingsUpdatesTitle">Обновления</h3>
-              <div class="settings-row"><div class="settings-row-copy"><strong>Автообновление</strong><span id="updateSourceStatus">GitHub Releases · ожидает публикации первой версии</span></div><span class="settings-value">NSIS · автоматически</span></div>
-              <div class="settings-row settings-row-stack"><div class="settings-row-copy"><strong>Журнал обновлений</strong><span>Текущая версия <span id="appVersionLabel">0.6.2</span></span></div><button class="settings-link" id="updateLogToggle" type="button" aria-expanded="false" aria-controls="updateLog">Посмотреть <span aria-hidden="true">⌄</span></button></div>
-              <div class="update-log hidden" id="updateLog"><article><strong>0.6.2 · Подготовка автообновлений</strong><ul><li>Добавлена проверка GitHub Releases, загрузка обновления в фоне и установка при перезапуске.</li><li>Portable-сборка заменена установщиком NSIS, который поддерживает штатное автообновление.</li><li>В настройках отображается статус проверки и загрузки.</li></ul></article><article><strong>0.6.1 · Улучшения панели и локаций</strong><ul><li>Карточки панели можно переставлять прямым перетаскиванием с плавным переходом.</li><li>Добавлены отдельные поля региона и города, а также улучшено распознавание кода страны и флага.</li><li>Для сервисов добавлены иконки; в комбинированный режим добавлен AyuGram.</li><li>В режиме «Полный VPN» список сервисов скрывается.</li></ul></article><article><strong>0.6.0 · Обновление интерфейса</strong><ul><li>Добавлены «Запомнить меня» и настройки сервисов для локаций.</li><li>Добавлены режимы «Комбинированный» и «Полный VPN» в демо-панели.</li><li>Раздел «Правила» заменён локальным каталогом-магазином.</li><li>Добавлены флаги стран, анимация карточки входа и плавная перестановка панели.</li></ul></article><p class="update-log-note">Автообновление начнёт работать после публикации установщика и latest.yml в настроенном GitHub-репозитории.</p></div>
+              <div class="settings-row"><div class="settings-row-copy"><strong>Автообновление</strong><span id="updateSourceStatus">GitHub Releases · автопроверка в NSIS-сборке</span></div><span class="settings-value">NSIS · автоматически</span></div>
+              <div class="settings-row settings-row-stack"><div class="settings-row-copy"><strong>Журнал обновлений</strong><span>Текущая версия <span id="appVersionLabel">0.6.3</span></span></div><button class="settings-link" id="updateLogToggle" type="button" aria-expanded="false" aria-controls="updateLog">Посмотреть <span aria-hidden="true">⌄</span></button></div>
+              <div class="update-log hidden" id="updateLog"><article><strong>0.6.3 · Новый интерфейс лаунчера</strong><ul><li>Обновлена навигация и вся рабочая панель; сохранены исходная палитра и тематические цвета.</li><li>Добавлен главный экран состояния с ясным предупреждением, что VPN-ядро не подключено.</li><li>Улучшены компоновка, читаемость карточек, адаптивность и видимость состояния приложения.</li></ul></article><article><strong>0.6.2 · Подготовка автообновлений</strong><ul><li>Добавлена проверка GitHub Releases, загрузка обновления в фоне и установка при перезапуске.</li><li>Portable-сборка заменена установщиком NSIS, который поддерживает штатное автообновление.</li><li>В настройках отображается статус проверки и загрузки.</li></ul></article><article><strong>0.6.1 · Улучшения панели и локаций</strong><ul><li>Карточки панели можно переставлять прямым перетаскиванием с плавным переходом.</li><li>Добавлены отдельные поля региона и города, а также улучшено распознавание кода страны и флага.</li><li>Для сервисов добавлены иконки; в комбинированный режим добавлен AyuGram.</li><li>В режиме «Полный VPN» список сервисов скрывается.</li></ul></article><article><strong>0.6.0 · Обновление интерфейса</strong><ul><li>Добавлены «Запомнить меня» и настройки сервисов для локаций.</li><li>Добавлены режимы «Комбинированный» и «Полный VPN» в демо-панели.</li><li>Раздел «Правила» заменён локальным каталогом-магазином.</li><li>Добавлены флаги стран, анимация карточки входа и плавная перестановка панели.</li></ul></article><p class="update-log-note">Автообновления доступны для установленной NSIS-версии при наличии опубликованного релиза и latest.yml в настроенном репозитории.</p></div>
             </section>
           </div>
         </section>

@@ -8,7 +8,7 @@ function showToast(message) {
 }
 
 const TITLES = { overview: 'Панель', profile: 'Профиль', locations: 'Локации', store: 'Магазин', settings: 'Настройки', admin: 'Админ-панель' };
-const APP_VERSION = '0.6.2';
+const APP_VERSION = '0.6.3';
 const ROUTES = { rule: 'Правило', global: 'Глобальный', direct: 'Прямой' };
 const THEMES = [
   { id: 'velvet', name: 'Velvet dusk', note: 'Тёплая тёмная', bg: '#171416', rail: '#211d20', panel: '#252023', raised: '#30292d', border: '#443940', text: '#f0e8ed', accent: '#f1c6d7', route: '#713e4d', green: '#b1d987', swatches: ['#171416','#252023','#f1c6d7'] },
@@ -461,12 +461,13 @@ function navigate(page) {
   document.querySelectorAll('.rail-item[data-page]').forEach(item => item.classList.toggle('active', item.dataset.page === page));
   document.getElementById('pageTitle').textContent = TITLES[page] || 'Панель';
   const views = { profile: 'profilePage', locations: 'locationsPage', store: 'storePage', settings: 'settingsPage', admin: 'adminPage' };
-  ['dashboardGrid', 'memberGate', 'profilePage', 'locationsPage', 'storePage', 'settingsPage', 'adminPage'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  ['connectionHero', 'dashboardGrid', 'memberGate', 'profilePage', 'locationsPage', 'storePage', 'settingsPage', 'adminPage'].forEach(id => document.getElementById(id).classList.add('hidden'));
   let activeView;
   if (page === 'overview') {
     const vpnAllowed = activeUser && (activeUser.role === 'custom' || activeUser.role === 'dev');
     activeView = document.getElementById(vpnAllowed ? 'dashboardGrid' : 'memberGate');
     activeView.classList.remove('hidden');
+    document.getElementById('connectionHero').classList.toggle('hidden', !vpnAllowed);
     document.getElementById('layoutModeButton').classList.toggle('hidden', !vpnAllowed);
   } else {
     activeView = document.getElementById(views[page]);
@@ -515,7 +516,7 @@ function setupDashboardLayout() {
     const before = new Map(cards.map(card => [card, card.getBoundingClientRect()]));
     list.forEach((id, index) => {
       const card = cards.find(item => item.dataset.dashboardCard === id);
-      if (card) card.style.order = String(index);
+      if (card) card.dataset.order = String(index);
     });
     void grid.offsetWidth;
     if (animate && document.documentElement.dataset.transitions !== 'off' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -529,7 +530,7 @@ function setupDashboardLayout() {
     }
     localStorage.setItem(DASHBOARD_ORDER_KEY, JSON.stringify(list));
   };
-  const currentOrder = () => [...cards].sort((a,b) => Number(a.style.order || 0) - Number(b.style.order || 0)).map(card => card.dataset.dashboardCard);
+  const currentOrder = () => [...cards].sort((a,b) => Number(a.dataset.order || 0) - Number(b.dataset.order || 0)).map(card => card.dataset.dashboardCard);
   const moveCard = (card, target, after = false) => {
     if (card === target) return;
     const order = currentOrder();
@@ -713,7 +714,7 @@ function renderLocations() {
   document.getElementById('serviceSelectionHint').textContent = 'Выберите сервисы для комбинированного режима';
   document.getElementById('serviceGrid').innerHTML = VPN_SERVICES.map(service => {
     const enabled = config.services.includes(service.id);
-    return `<button class="service-option ${enabled ? 'selected' : ''}" type="button" data-service="${service.id}" aria-pressed="${enabled}"><span class="service-brand" style="--brand-color:${service.color}" aria-hidden="true">${serviceIconSvg(service.id)}</span><span>${service.name}</span></button>`;
+    return `<button class="service-option ${enabled ? 'selected' : ''}" type="button" data-service="${service.id}" aria-pressed="${enabled}"><span class="service-brand" data-brand="${service.id}" aria-hidden="true">${serviceIconSvg(service.id)}</span><span>${service.name}</span></button>`;
   }).join('');
 }
 function selectLocation(locationId) {
@@ -821,6 +822,8 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !document.getElementById('networkDrawerOverlay').classList.contains('hidden')) closeNetworkDrawer();
 });
 document.querySelectorAll('.rail-item[data-page]').forEach(button => button.addEventListener('click', () => navigate(button.dataset.page)));
+document.getElementById('heroLocations').addEventListener('click', () => navigate('locations'));
+document.getElementById('heroNetworkCheck').addEventListener('click', () => openNetworkDrawer());
 document.getElementById('layoutModeButton').addEventListener('click', () => setDashboardLayoutMode(!dashboardLayoutMode));
 document.getElementById('openLayoutSettings').addEventListener('click', () => {
   navigate('overview');

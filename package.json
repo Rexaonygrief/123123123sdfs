@@ -1,15 +1,14 @@
 {
   "name": "rezonevpn-dashboard-demo",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "private": true,
-  "description": "RezoneVPN demo with Russian IP details, dashboard layout, and local demo settings",
+  "description": "RezoneVPN interface prototype with refreshed launcher UI and updater",
   "main": "main.cjs",
   "author": "RezoneVPN",
   "scripts": {
     "start": "electron .",
-    "dist:win": "npm run restore:icon && electron-builder --win nsis --x64",
-    "release:win": "npm run restore:icon && electron-builder --win nsis --x64 --publish always",
-    "restore:icon": "node scripts/restore-icon.cjs"
+    "dist:win": "electron-builder --win nsis --x64",
+    "release:win": "electron-builder --win nsis --x64 --publish always"
   },
   "devDependencies": {
     "electron": "44.7.2",
@@ -49,8 +48,7 @@
     "publish": {
       "provider": "github",
       "owner": "Rexaonygrief",
-      "repo": "123123123sdfs",
-      "releaseType": "release"
+      "repo": "123123123sdfs"
     }
   },
   "dependencies": {
